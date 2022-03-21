@@ -14,3 +14,6 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->post('/get_patients', 'PatientController@get_patients');
+$router->post('/get_referrals', 'ReferralController@get_referrals');
