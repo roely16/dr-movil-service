@@ -53,8 +53,6 @@
 					]
 				];
 
-				$faker = Faker\Factory::create();
-
 				$items = [];
 
 				$response = [

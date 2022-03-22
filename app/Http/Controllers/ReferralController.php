@@ -14,7 +14,7 @@
 						"value" => "nombre",
 						"align" => "start",
 						"sortable" => false,
-						"width" => "50%"
+						"width" => "30%"
 					],
 					[
 						"text" => "Edad",
@@ -33,23 +33,23 @@
 					[
 						"text" => "Emergencia",
 						"value" => "emergencia",
-						"align" => "start",
+						"align" => "center",
 						"sortable" => false,
-						"width" => "10%"
+						"width" => "15%"
 					],
 					[
 						"text" => "Consulta Externa",
 						"value" => "c_externa",
-						"align" => "start",
+						"align" => "center",
 						"sortable" => false,
-						"width" => "10%"
+						"width" => "15%"
 					],
 					[
 						"text" => "Acciones",
 						"value" => "acciones",
-						"align" => "start",
+						"align" => "right",
 						"sortable" => false,
-						"width" => "10%"
+						"width" => "20%"
 					]
 				];
 
