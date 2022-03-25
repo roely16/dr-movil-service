@@ -5,6 +5,7 @@
 	use Illuminate\Http\Request;
 
 	use App\Ficha_Paciente;
+	use App\Rol_Ficha_Paciente;
 
 	class PatientController extends Controller{
 
@@ -79,7 +80,9 @@
 
 			try {
 				
-				$tabs_ficha = Ficha_Paciente::all();
+				$tabs_ficha = Ficha_Paciente::whereIn('id', 
+					Rol_Ficha_Paciente::select('ficha_paciente_id')->where('rol_id', $request->rol_id)->get()->toArray()
+				)->get();
 
 				return response()->json($tabs_ficha);
 
