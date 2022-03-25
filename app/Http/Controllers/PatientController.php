@@ -2,6 +2,10 @@
 
 	namespace App\Http\Controllers;
 
+	use Illuminate\Http\Request;
+
+	use App\Ficha_Paciente;
+
 	class PatientController extends Controller{
 
 		public function get_patients(){
@@ -71,6 +75,24 @@
 
 		}
 
+		public function get_tabs_form(Request $request){
+
+			try {
+				
+				$tabs_ficha = Ficha_Paciente::all();
+
+				return response()->json($tabs_ficha);
+
+			} catch (\Throwable $th) {
+				
+				return response()->json([
+					'type' => 'error',
+					'message' => $th->getMessage()
+				], 400);
+
+			}
+
+		}
 	}
 
 ?>
