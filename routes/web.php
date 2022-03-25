@@ -21,3 +21,5 @@ $router->post('/get_referrals', 'ReferralController@get_referrals');
 $router->post('/register', 'RegisterController@register');
 
 $router->get('/get_register_data', 'RegisterController@get_data');
+
+$router->post('/login', 'LoginController@login');
