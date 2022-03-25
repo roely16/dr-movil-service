@@ -17,3 +17,7 @@ $router->get('/', function () use ($router) {
 
 $router->post('/get_patients', 'PatientController@get_patients');
 $router->post('/get_referrals', 'ReferralController@get_referrals');
+
+$router->post('/register', 'RegisterController@register');
+
+$router->get('/get_register_data', 'RegisterController@get_data');

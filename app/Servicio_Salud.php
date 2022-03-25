@@ -4,9 +4,9 @@
  
 	use Illuminate\Database\Eloquent\Model;
  
-	class Paciente extends Model{
+	class Servicio_Salud extends Model{
 		
-		protected $table = 'paciente';
+		protected $table = 'servicio_salud';
 
 	}
 
