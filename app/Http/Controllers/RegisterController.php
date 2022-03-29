@@ -8,6 +8,8 @@
 	use App\Rol;
 	use App\Usuario;
 
+	use App\Jobs\SendMail;
+
 	use Illuminate\Support\Facades\Hash;
 
 	class RegisterController extends Controller{
@@ -66,6 +68,9 @@
 					"message" => "Usuario registrado exitosamente.  Se ha envidado un correo electrónico con instrucciones para la activación de la cuenta.",
 					"data" => $usuario
 				];
+
+				// Send mail
+				dispatch(new SendMail);
 
 				return response()->json($response, 200);
 

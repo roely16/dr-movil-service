@@ -25,3 +25,5 @@ $router->get('/get_register_data', 'RegisterController@get_data');
 $router->post('/login', 'LoginController@login');
 
 $router->post('/get_tabs_form', 'PatientController@get_tabs_form');
+
+$router->post('/save_patient', 'PatientController@save');
