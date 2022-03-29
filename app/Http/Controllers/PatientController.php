@@ -95,7 +95,10 @@
 			
 			} catch (\Throwable $th) {
 				
-				return response()->json($th->getMessage());
+				return response()->json([
+					'type' => 'error',
+					'message' => $th->getMessage()
+				], 400);
 
 			}
 			
