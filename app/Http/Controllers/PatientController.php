@@ -110,10 +110,13 @@
 			try {
 				
 				// Get tabs
-
-				$tabs_ficha = Ficha_Paciente::whereIn('id', 
-					Rol_Ficha_Paciente::select('ficha_paciente_id')->where('rol_id', $request->rol_id)->get()->toArray()
-				)->get();
+				
+				$tabs_ficha = DB::select("	SELECT *
+											FROM ficha_paciente t1
+											INNER JOIN rol_ficha_paciente t2
+											ON t1.id = t2.ficha_paciente_id
+											WHERE t2.rol_id = $request->rol_id
+										");
 
 				// Get health services
 				$health_services = Servicio_Salud::all();
