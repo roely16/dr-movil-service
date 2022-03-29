@@ -123,16 +123,12 @@
 
 					$item = DB::table($request->table)->where('id', $result)->first();
 
-					$message = "El paciente ha sido registrado exitosamente.";
-
 				}else{
 
 					// Update 
 					$result = DB::table($request->table)->where('id', $request->id)->update($request->except(['id', 'table']));
 
 					$item = DB::table($request->table)->where('id', $request->id)->first();
-
-					$message = "La información del paciente ha sido actualizada exitosamente.";
 
 				}
 				
