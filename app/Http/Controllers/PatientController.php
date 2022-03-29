@@ -8,12 +8,17 @@
 	use App\Rol_Ficha_Paciente;
 	use App\Servicio_Salud;
 	use App\Paciente;
+	use App\Antecedentes_Gineco;
+	use App\Antecedentes_Paciente;
+	use App\Examen_Fisico;
 
 	use Illuminate\Support\Facades\DB;
+
+	use Carbon\Carbon;
 	
 	class PatientController extends Controller{
 
-		public function get_patients(){
+		public function get_patients(Request $request){
 
 			try {
 				
@@ -23,7 +28,14 @@
 						"value" => "nombre",
 						"align" => "start",
 						"sortable" => false,
-						"width" => "50%"
+						"width" => "25%"
+					],
+					[
+						"text" => "Referido a",
+						"value" => "servicio_salud",
+						"align" => "start",
+						"sortable" => false,
+						"width" => "25%"
 					],
 					[
 						"text" => "Edad",
@@ -62,7 +74,17 @@
 					]
 				];
 
-				$items = Paciente::all();
+				$items = DB::select("	SELECT T1.*, T2.nombre AS servicio_salud
+										FROM paciente T1
+										INNER JOIN servicio_salud T2
+										ON T1.referido_a = T2.id
+										WHERE T1.deleted_at IS NULL
+										AND T1.ubicacion_id IN (
+											SELECT id
+											FROM ubicacion
+											WHERE clinica_id = '$request->clinica_id'
+										)
+									");
 
 				$response = [
 					"headers" => $headers,
@@ -115,9 +137,13 @@
 
 			try {
 				
+				$request->offsetSet('updated_at', Carbon::now());
+
 				if (!$request->id) {
 
 					// Save
+
+					$request->offsetSet('created_at', Carbon::now());
 
 					$result = DB::table($request->table)->insertGetId($request->except(['table']));
 
@@ -126,7 +152,8 @@
 				}else{
 
 					// Update 
-					$result = DB::table($request->table)->where('id', $request->id)->update($request->except(['id', 'table']));
+
+					$result = DB::table($request->table)->where('id', $request->id)->update($request->except(['id', 'table', 'created_at']));
 
 					$item = DB::table($request->table)->where('id', $request->id)->first();
 
@@ -139,6 +166,39 @@
 				];
 
 				return response()->json($response);
+
+			} catch (\Throwable $th) {
+				
+				return response()->json([
+					'type' => 'error',
+					'message' => $th->getMessage()
+				], 400);
+
+			}
+
+		}
+
+		public function get_detail(Request $request){
+
+			try {
+				
+				$patient = Paciente::find($request->id);
+
+				$medical_history = Antecedentes_Paciente::where('paciente_id', $request->id)->first();
+
+				$obstetric = Antecedentes_Gineco::where('paciente_id', $request->id)->first();
+
+				$physical_exam = Examen_Fisico::where('paciente_id', $request->id)->first();
+
+				$response = [
+					"patient" => $patient,
+					"medical_history" => $medical_history,
+					"obstetric" => $obstetric,
+					"physical_examen" => $physical_exam
+				];
+
+				return response()->json($response);
+
 
 			} catch (\Throwable $th) {
 				
