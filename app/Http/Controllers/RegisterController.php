@@ -7,6 +7,8 @@
 	use App\Clinica;
 	use App\Rol;
 	use App\Usuario;
+	use App\Tipo_Usuario;
+	use App\Servicio_Salud;
 
 	use App\Jobs\SendMail;
 
@@ -14,17 +16,20 @@
 
 	class RegisterController extends Controller{
 
-		public function get_data(){
+		public function get_data(Request $request){
 
 			try {
 				
 				$clinicas = Clinica::all();
 
-				$roles = Rol::all();
+				$roles = Rol::where('tipo_usuario_id', $request->tipo_usuario_id)->get();
+
+				$servicios_salud = Servicio_Salud::where('tipo_usuario_id', $request->tipo_usuario_id)->get();
 
 				$response  = [
 					"clinicas" => $clinicas,
-					"roles" => $roles
+					"roles" => $roles,
+					"servicios_salud" => $servicios_salud
 				];
 
 				return response()->json($response, 200);
@@ -82,6 +87,31 @@
 				], 400);
 
 			}			
+
+		}
+
+		public function get_types_user(){
+
+			try {
+				
+				$types_user = Tipo_Usuario::all();
+
+				foreach ($types_user as &$type) {
+					
+					$type->select = false;
+
+				}
+
+				return response()->json($types_user);
+
+			} catch (\Throwable $th) {
+				
+				return response()->json([
+					'type' => 'error',
+					'message' => $th->getMessage()
+				], 400);
+
+			}
 
 		}
 

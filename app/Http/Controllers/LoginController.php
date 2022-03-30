@@ -10,8 +10,8 @@
     use App\Ubicacion;
     use App\Menu;
     use App\Menu_Rol;
-
-    use Illuminate\Support\Facades\Hash;
+use App\Servicio_Salud;
+use Illuminate\Support\Facades\Hash;
 
     class LoginController extends Controller{
 
@@ -50,26 +50,37 @@
 
                 $user->rol = $role->nombre;
 
-                $clinic = Clinica::find($user->clinica_id);
-                $location = Ubicacion::where('clinica_id', $clinic->id)->where('deleted_at', null)->first();
-
-                // Sidebar options
-                $menu = Menu::whereIn('id', Menu_Rol::select('menu_id')->where('rol_id', $role->id)->get()->toArray())->get();
-
-                $user->menu = $menu;
-
-                if (!$location) {
+                if ($user->clinica_id) {
                     
-                    return response()->json([
-                        'type' => 'error',
-                        'message' => 'La clínica no cuenta con una ubicación definida.  Por favor ponerse en contacto con el equipo AVE.'
-                    ], 400);
+                    $clinic = Clinica::find($user->clinica_id);
+                    $location = Ubicacion::where('clinica_id', $clinic->id)->where('deleted_at', null)->first();
+
+                    $user->clinica = $clinic->nombre;
+                    $user->ubicacion = $location->direccion;
+                    $user->ubicacion_id = $location->id;
+
+                    if (!$location) {
+                    
+                        return response()->json([
+                            'type' => 'error',
+                            'message' => 'La clínica no cuenta con una ubicación definida.  Por favor ponerse en contacto con el equipo AVE.'
+                        ], 400);
+    
+                    }
 
                 }
 
-                $user->clinica = $clinic->nombre;
-                $user->ubicacion = $location->direccion;
-                $user->ubicacion_id = $location->id;
+                if ($user->servicio_salud_id) {
+                    
+                    $servicio_salud = Servicio_Salud::find($user->servicio_salud_id);
+
+                    $user->clinica = $servicio_salud->nombre;
+
+                }
+            
+                // Sidebar options
+                $menu = Menu::whereIn('id', Menu_Rol::select('menu_id')->where('rol_id', $role->id)->get()->toArray())->get();
+                $user->menu = $menu;
 
                 $response = [
                     'user' => $user

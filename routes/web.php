@@ -20,7 +20,7 @@ $router->post('/get_referrals', 'ReferralController@get_referrals');
 
 $router->post('/register', 'RegisterController@register');
 
-$router->get('/get_register_data', 'RegisterController@get_data');
+$router->post('/get_register_data', 'RegisterController@get_data');
 
 $router->post('/login', 'LoginController@login');
 
@@ -29,3 +29,5 @@ $router->post('/get_tabs_form', 'PatientController@get_tabs_form');
 $router->post('/save_patient', 'PatientController@save');
 
 $router->post('/get_patient_detail', 'PatientController@get_detail');
+
+$router->post('/get_types_user', 'RegisterController@get_types_user');

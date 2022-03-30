@@ -72,11 +72,7 @@
 										INNER JOIN servicio_salud T2
 										ON T1.referido_a = T2.id
 										WHERE T1.deleted_at IS NULL
-										AND T1.ubicacion_id IN (
-											SELECT id
-											FROM ubicacion
-											WHERE clinica_id = '$request->clinica_id'
-										)
+										AND T1.referido_a = $request->servicio_salud_id
 									");
 
 				foreach ($items as &$item) {

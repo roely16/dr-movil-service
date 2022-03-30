@@ -11,6 +11,7 @@
 	use App\Antecedentes_Gineco;
 	use App\Antecedentes_Paciente;
 	use App\Examen_Fisico;
+	use App\Ficha_Referencia;
 
 	use Illuminate\Support\Facades\DB;
 
@@ -197,11 +198,14 @@
 
 				$physical_exam = Examen_Fisico::where('paciente_id', $request->id)->first();
 
+				$reference_sheet = Ficha_Referencia::where('paciente_id', $request->id)->first();
+
 				$response = [
 					"patient" => $patient,
 					"medical_history" => $medical_history,
 					"obstetric" => $obstetric,
-					"physical_examen" => $physical_exam
+					"physical_examen" => $physical_exam,
+					"reference_sheet" => $reference_sheet
 				];
 
 				return response()->json($response);
