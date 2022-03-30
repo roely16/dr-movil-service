@@ -76,7 +76,7 @@
 				];
 
 				// Send mail
-				dispatch(new SendMail);
+				//dispatch(new SendMail);
 
 				return response()->json($response, 200);
 
