@@ -70,7 +70,8 @@
 
 				$response = [
 					"type" => "success",
-					"message" => "Usuario registrado exitosamente.  Se ha envidado un correo electrónico con instrucciones para la activación de la cuenta.",
+					// "message" => "Usuario registrado exitosamente.  Se ha envidado un correo electrónico con instrucciones para la activación de la cuenta.",
+					"message" => "El usuario ha sido registrado exitosamente",
 					"data" => $usuario
 				];
 
