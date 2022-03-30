@@ -8,6 +8,8 @@
     use App\Rol;
     use App\Clinica;
     use App\Ubicacion;
+    use App\Menu;
+    use App\Menu_Rol;
 
     use Illuminate\Support\Facades\Hash;
 
@@ -50,6 +52,11 @@
 
                 $clinic = Clinica::find($user->clinica_id);
                 $location = Ubicacion::where('clinica_id', $clinic->id)->where('deleted_at', null)->first();
+
+                // Sidebar options
+                $menu = Menu::whereIn('id', Menu_Rol::select('menu_id')->where('rol_id', $role->id)->get()->toArray())->get();
+
+                $user->menu = $menu;
 
                 if (!$location) {
                     

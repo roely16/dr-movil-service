@@ -116,6 +116,7 @@
 											INNER JOIN rol_ficha_paciente t2
 											ON t1.id = t2.ficha_paciente_id
 											WHERE t2.rol_id = $request->rol_id
+											ORDER BY t2.orden ASC
 										");
 
 				// Get health services
